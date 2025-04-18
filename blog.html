@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Blog | Wander Wheel</title>
+    <style>
+        :root {
+            --primary-color: #673147;
+            --secondary-color: #b3d4c1;
+            --accent-color: #ff7b54;
+            --light-bg: #f5f7fa;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+            padding-top: 80px;
+        }
+        
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .blog-header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/blog-banner.jpg') no-repeat center center/cover;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+        
+        .blog-title {
+            font-weight: 800;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .blog-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .blog-card-img {
+            height: 200px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .blog-card-body {
+            padding: 20px;
+        }
+        
+        .blog-card-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .blog-card-text {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .read-more-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .read-more-btn:hover {
+            background-color: #e64a19;
+            transform: translateY(-2px);
+        }
+        
+        .rating {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        
+        .review-count {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .offcanvas-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .offcanvas-body {
+            padding: 20px;
+        }
+        
+        .blog-author {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+        
+        .author-name {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        
+        .blog-date {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .blog-content {
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+        
+        .reviews-section {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        
+        .review-card {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .review-author {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .review-date {
+            color: #6c757d;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .review-text {
+            margin-bottom: 0;
+        }
+        
+        .add-review-btn {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .add-review-btn:hover {
+            background-color: #9fc9b3;
+        }
+        
+        .search-container {
+            margin-bottom: 30px;
+        }
+        
+        .search-input {
+            border-radius: 50px;
+            padding: 12px 20px;
+            border: 1px solid #ced4da;
+        }
+        
+        .search-btn {
+            border-radius: 50px;
+            padding: 12px 25px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+        }
+        
+        .category-filter {
+            margin-bottom: 30px;
+        }
+        
+        .category-btn {
+            border-radius: 50px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            background-color: white;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+        
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .blog-header {
+    background-image: url('/images/blog_back.jpeg');
+    background-size: cover;
+    background-position: center;
+    height: 300px; /* Adjust height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.blog-title {
+    color: white;
+    font-size: 48px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+        @media (max-width: 768px) {
+            .blog-title {
+                font-size: 2rem;
+            }
+            
+            .blog-header {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (same as your other pages) -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">Wander Wheel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blog.html">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html">Cart</a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex">
+                    <a href="signin.html" class="btn btn-outline-danger">
+                        <i class="fas fa-sign-out-alt me-1"></i> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Blog Header -->
+    <div class="blog-header">
+        <div class="container">
+            <h1 class="blog-title">Travel Blog</h1>
+        </div>
+    </div>
+    
+
+    <div class="container">
+        <!-- Search and Filter Section -->
+        <div class="row">
+            <div class="col-md-8">
+                <div class="search-container">
+                    <div class="input-group">
+                        <input type="text" class="form-control search-input" placeholder="Search blog posts...">
+                        <button class="btn search-btn" type="button">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="category-filter">
+                    <button class="btn category-btn active">All</button>
+                    <button class="btn category-btn">Destinations</button>
+                    <button class="btn category-btn">Tips</button>
+                    <button class="btn category-btn">Stories</button>
+                    <button class="btn category-btn">Reviews</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Posts Grid -->
+        <div class="row">
+            <!-- Blog Post 1 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card blog-card">
+                    <img src="/images/blog_japan.jpg" class="blog-card-img" alt="Japan Adventure">
+                    <div class="blog-card-body">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="review-count">(24 reviews)</span>
+                        </div>
+                        <h5 class="blog-card-title">Discovering Hidden Japan</h5>
+                        <p class="blog-card-text">Explore the lesser-known regions of Japan beyond Tokyo and Kyoto...</p>
+                        <button class="btn read-more-btn" data-bs-toggle="offcanvas" data-bs-target="#blog1">
+                            Read More <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 2 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card blog-card">
+                    <img src="/images/blog_bankok.jpg" class="blog-card-img" alt="Bali Retreat">
+                    <div class="blog-card-body">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="review-count">(18 reviews)</span>
+                        </div>
+                        <h5 class="blog-card-title">Wellness Retreats in Bali</h5>
+                        <p class="blog-card-text">Find your zen at these incredible wellness retreats in the heart of Bali...</p>
+                        <button class="btn read-more-btn" data-bs-toggle="offcanvas" data-bs-target="#blog2">
+                            Read More <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 3 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card blog-card">
+                    <img src="/images/blog_europe.jpg" class="blog-card-img" alt="European Adventure">
+                    <div class="blog-card-body">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="review-count">(32 reviews)</span>
+                        </div>
+                        <h5 class="blog-card-title">Backpacking Through Europe</h5>
+                        <p class="blog-card-text">How to see Europe on a budget without missing the best experiences...</p>
+                        <button class="btn read-more-btn" data-bs-toggle="offcanvas" data-bs-target="#blog3">
+                            Read More <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 4 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card blog-card">
+                    <img src="/images/blog_himalaya.jpg" class="blog-card-img" alt="Mountain Trekking">
+                    <div class="blog-card-body">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span class="review-count">(15 reviews)</span>
+                        </div>
+                        <h5 class="blog-card-title">Himalayan Trekking Guide</h5>
+                        <p class="blog-card-text">Everything you need to know before embarking on your Himalayan adventure...</p>
+                        <button class="btn read-more-btn" data-bs-toggle="offcanvas" data-bs-target="#blog4">
+                            Read More <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 5 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card blog-card">
+                    <img src="/images/blog_bankok.jpg" class="blog-card-img" alt="Food Tour">
+                    <div class="blog-card-body">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="review-count">(21 reviews)</span>
+                        </div>
+                        <h5 class="blog-card-title">Bangkok Street Food Tour</h5>
+                        <p class="blog-card-text">A culinary journey through Bangkok's vibrant street food scene...</p>
+                        <button class="btn read-more-btn" data-bs-toggle="offcanvas" data-bs-target="#blog5">
+                            Read More <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Post 6 -->
+            <div class="col-lg-4 col-md-6">
+                <div class="card blog-card">
+                    <img src="/images/blog_dubai.jpg" class="blog-card-img" alt="Family Vacation">
+                    <div class="blog-card-body">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span class="review-count">(12 reviews)</span>
+                        </div>
+                        <h5 class="blog-card-title">Family-Friendly Dubai</h5>
+                        <p class="blog-card-text">The best activities and accommodations for families visiting Dubai...</p>
+                        <button class="btn read-more-btn" data-bs-toggle="offcanvas" data-bs-target="#blog6">
+                            Read More <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Blog pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Offcanvas Blog Details -->
+    
+    <!-- Blog 1 Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="blog1" aria-labelledby="blog1Label">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="blog1Label">Discovering Hidden Japan</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="blog-author">
+                <img src="/images/author-1.jpg" class="author-avatar" alt="Author">
+                <div>
+                    <h6 class="author-name">Sarah Johnson</h6>
+                    <p class="blog-date">Published: May 15, 2023</p>
+                </div>
+            </div>
+            
+            <div class="rating mb-4">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+                <span>4.5 (24 reviews)</span>
+            </div>
+            
+            <img src="/images/blog-1.jpg" class="img-fluid rounded mb-4" alt="Japan Adventure">
+            
+            <div class="blog-content">
+                <p>When most people think of Japan, they imagine the neon lights of Tokyo or the ancient temples of Kyoto. But Japan has so much more to offer beyond these well-trodden paths. On my recent trip, I set out to discover the hidden gems that make Japan truly special.</p>
+                
+                <h5>The Art Islands of Naoshima</h5>
+                <p>My journey began on the tiny island of Naoshima in the Seto Inland Sea. This remote island has been transformed into an open-air contemporary art museum, with installations and museums designed by world-renowned architects like Tadao Ando.</p>
+                
+                <h5>The Thatched Roof Villages of Shirakawa-go</h5>
+                <p>Next, I traveled to Shirakawa-go, a UNESCO World Heritage site known for its traditional gassho-zukuri farmhouses. These houses, with their steep thatched roofs designed to withstand heavy snow, look like something from a fairy tale.</p>
+                
+                <h5>Tips for Off-the-Beaten-Path Japan</h5>
+                <ul>
+                    <li>Learn basic Japanese phrases - English is less common in rural areas</li>
+                    <li>Invest in a Japan Rail Pass if traveling extensively</li>
+                    <li>Try local specialties in each region</li>
+                    <li>Respect local customs, especially in rural areas</li>
+                </ul>
+            </div>
+            
+            <div class="reviews-section">
+                <h5>Reviews</h5>
+                
+                <div class="review-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h6 class="review-author">Michael T.</h6>
+                    <p class="review-date">June 2, 2023</p>
+                    <p class="review-text">This article inspired my trip to Naoshima last month. The art installations were breathtaking, just as described. Thank you for the excellent recommendations!</p>
+                </div>
+                
+                <div class="review-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <h6 class="review-author">Lisa K.</h6>
+                    <p class="review-date">May 28, 2023</p>
+                    <p class="review-text">Great article! I would add that visiting during cherry blossom season makes these locations even more magical.</p>
+                </div>
+                
+                <button class="btn add-review-btn">
+                    <i class="fas fa-plus me-2"></i> Add Your Review
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Blog 2 Offcanvas -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="blog2" aria-labelledby="blog2Label">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="blog2Label">Wellness Retreats in Bali</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="blog-author">
+                <img src="/images/author-2.jpg" class="author-avatar" alt="Author">
+                <div>
+                    <h6 class="author-name">David Chen</h6>
+                    <p class="blog-date">Published: April 5, 2023</p>
+                </div>
+            </div>
+            
+            <div class="rating mb-4">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <span>4.0 (18 reviews)</span>
+            </div>
+            
+            <img src="/images/blog-2.jpg" class="img-fluid rounded mb-4" alt="Bali Retreat">
+            
+            <div class="blog-content">
+                <p>Bali has long been known as a paradise for those seeking relaxation and rejuvenation. After spending a month exploring the island's wellness offerings, I've compiled this guide to help you find the perfect retreat for your needs.</p>
+                
+                <h5>Fivelements Retreat</h5>
+                <p>Nestled along the Ayung River, Fivelements offers a luxurious Balinese healing experience. Their signature treatments combine traditional Balinese healing with modern wellness practices.</p>
+                
+                <h5>Yoga Barn in Ubud</h5>
+                <p>For yoga enthusiasts, the Yoga Barn is a must-visit. With over 15 daily classes ranging from gentle flow to advanced ashtanga, there's something for every level.</p>
+                
+                <h5>Choosing the Right Retreat</h5>
+                <ul>
+                    <li>Consider your goals (relaxation, detox, spiritual growth)</li>
+                    <li>Look at the instructor credentials</li>
+                    <li>Check what's included in the package</li>
+                    <li>Read recent reviews</li>
+                </ul>
+            </div>
+            
+            <div class="reviews-section">
+                <h5>Reviews</h5>
+                
+                <div class="review-card">
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h6 class="review-author">Sophia R.</h6>
+                    <p class="review-date">April 20, 2023</p>
+                    <p class="review-text">I booked Fivelements based on this review and it exceeded all expectations. The healing rituals were transformative.</p>
+                </div>
+                
+                <button class="btn add-review-btn">
+                    <i class="fas fa-plus me-2"></i> Add Your Review
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add similar offcanvas elements for blog3 to blog6 -->
+    <!-- You can follow the same pattern for the remaining blogs -->
+
+    <footer class="bg-dark text-white mt-5">
+        <div class="container-fluid py-5" style="background-color: #673147;">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5>Wander Wheel by Chirag</h5>
+                    <p>
+                        Compare and plan your dream Trip with ease. <br>We offer the best prices and options.
+                    </p>
+                </div>
+      
+                <div class="col-md-2 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="index.html" class="text-decoration-none"><i class="fa-solid fa-house"></i> Home</a></li>
+                        <li><a href="blog.html" class="text-decoration-none"><i class="fa-solid fa-book"></i> Blog</a></li>
+                        <li><a href="#" class="text-decoration-none"><i class="fa-solid fa-address-card"></i> Contact</a></li>
+                    </ul>
+                </div>
+      
+                <div class="col-md-3 mb-4">
+                    <h5>Follow Us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-decoration-none"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#" class="text-decoration-none"><i class="fa-solid fa-x"></i> Twitter</a></li>
+                        <li><a href="#" class="text-decoration-none"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                    </ul>
+                </div>
+      
+                <div class="col-md-3 mb-4">
+                    <h5>Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa-solid fa-paper-plane"></i> Email: Wander.wheel@gmail.com</li>
+                        <li><i class="fa-solid fa-phone"></i> Phone: +91 12345-98765</li>
+                        <li><i class="fa-solid fa-map-location-dot"></i> Address: SCA (Lpu), Phagwara</li>
+                    </ul>
+                </div>
+            </div>
+      
+            <div class="text-center pt-4 border-top border-light">
+                <p class="text mb-0">&copy; 2025 Wander Wheel by Chirag. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Initialize star rating functionality
+            $('.rating i').on('click', function() {
+                const starValue = $(this).index() + 1;
+                const ratingContainer = $(this).parent();
+                
+                // Update star display
+                ratingContainer.find('i').removeClass('fas').addClass('far');
+                for (let i = 0; i < starValue; i++) {
+                    ratingContainer.find('i').eq(i).removeClass('far').addClass('fas');
+                }
+                
+                // In a real app, you would save this rating to your database
+                console.log('Rating selected:', starValue);
+            });
+            
+            // Category filter buttons
+            $('.category-btn').on('click', function() {
+                $('.category-btn').removeClass('active');
+                $(this).addClass('active');
+                
+                // In a real app, you would filter the blog posts here
+                const category = $(this).text();
+                console.log('Filtering by:', category);
+            });
+            
+            // Search functionality
+            $('.search-btn').on('click', function() {
+                const searchTerm = $('.search-input').val();
+                console.log('Searching for:', searchTerm);
+                
+                // In a real app, you would make an AJAX call to search your blog posts
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Wander wheel</title>
+    <style>
+        :root {
+            --primary-color: #673147;
+            --secondary-color: #b3d4c1;
+            --accent-color: #ff7b54;
+            --light-bg: #f5f7fa;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: white !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: #555 !important;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/images/wp2481186-travel-wallpapers.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        /* Date picker styles */
+input[type="date"] {
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input[type="date"]:focus {
+    border-color: #673147;
+    box-shadow: 0 0 0 0.25rem rgba(103, 49, 71, 0.25);
+}
+
+/* Disabled input styling */
+input:disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+        .hero-title {
+            font-weight: 800;
+            font-size: 3.5rem;
+            font-family: 'Roboto Condensed', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero-subtitle {
+            font-weight: 400;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .search-input {
+            background: rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(10px);
+            color: white !important;
+            border: none;
+            padding: 1rem;
+            border-radius: 50px;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        .destination-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .destination-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .trip-card {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .trip-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .save-trip {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 50px;
+            padding: 0.5rem 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .save-trip:hover {
+            background-color: #4a2340;
+            transform: scale(1.05);
+        }
+        
+        .section-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+        
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        footer h5 {
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        footer a:hover {
+            color: white;
+        }
+        
+        .cart-badge {
+            font-size: 0.6rem;
+        }
+        
+        .date-picker-card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: 60vh;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .date-picker-card {
+                height: auto;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="#">Wander Wheel</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav gap-3">
+              <li class="nav-item">
+                  <a class="nav-link active" href="#homee">Home</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="#">Start Planning</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="blog.html">Blog</a>
+            </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Where to Stay</a>
+                  <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#hotell">Hotel</a></li>
+                      <li><a class="dropdown-item" href="#motell">Motel</a></li>
+                      <li><a class="dropdown-item" href="#">Air BNB</a></li>
+                  </ul>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">What to Do</a>
+                  <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Local attractions</a></li>
+                      <li><a class="dropdown-item" href="#">Natural attractions</a></li>
+                      <li><a class="dropdown-item" href="#">Shows</a></li>
+                  </ul>
+              </li>
+          </ul>
+
+          <div class="d-flex ms-auto gap-3">
+              <a class="nav-link" href="cart.html"> 
+                  <button id="cart-btn" class="btn btn-outline-success position-relative" style="border-radius: 10px;">
+                      <i class="fa-solid fa-cart-shopping"></i> Cart 
+                      <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge">
+                          0 
+                      </span>
+                  </button>
+              </a>
+
+              <ul class="navbar-nav">
+                  <li class="nav-item">
+                    <button class="btn btn-outline-primary" style="border-radius: 10px;">
+                      <a class="nav-link" href="signin.html">
+                          Sign out <i class="fa-solid fa-circle-user"></i>
+                      </a>
+                    </button>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</nav>
+
+<span id="homee"></span>
+<div class="container-fluid hero-section text-white">
+    <div class="container">
+        <h1 class="hero-title">Your Next Journey, Optimized</h1>
+        <h3 class="hero-subtitle">Build, personalize, and optimize your itineraries with our trip planner. Designed for vacations, workations, and everyday adventures.</h3>
+        
+        <input class="form-control form-control-lg search-input mb-4" type="text" placeholder="Search for a Destination To Start" aria-label="Search destination">
+        
+        <div class="d-flex flex-wrap justify-content-center">
+            <a href="#datee"><button class="btn destination-btn">Japan</button></a>   
+            <a href="#datee"><button class="btn destination-btn">Dubai</button></a>
+            <a href="#datee"><button class="btn destination-btn">Korea</button></a>
+            <a href="#datee"><button class="btn destination-btn">Thailand</button></a>
+            <a href="#datee"><button class="btn destination-btn">Sri-Lanka</button></a>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div id="carouselExampleCaptions" class="carousel slide">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner rounded-4">
+                    <div class="carousel-item active">
+                        <img src="/images/dubai.jpeg" class="d-block w-100" alt="Dubai">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>DUBAI</h5>
+                            <p>Dubai is a city of skyscrapers, ports, and beaches, where big business takes place alongside sun-seeking tourism</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/japan.jpeg" class="d-block w-100" alt="Japan">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>JAPAN</h5>
+                            <p>Japan is renowned for its unique blend of ancient traditions and modern innovations</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/bankok.jpeg" class="d-block w-100" alt="Thailand">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>THAILAND</h5>
+                            <p>Thailand is home to Buddhist temples, exotic wildlife and spectacular islands</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="col-md-6" id="datee">
+            <div class="card date-picker-card shadow">
+                <div class="card-body p-4">
+                    <h3 class="section-title">Travel Dates: Pick Your Journey Schedule</h3>
+                    <form id="dateForm">
+                        <div class="mb-3">
+                            <label for="depart" class="form-label">Depart ✈️</label>
+                            <input type="date" class="form-control" id="depart" placeholder="Select Departure Date" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="return" class="form-label">Return ✈️</label> 
+                            <input type="date" class="form-control" id="return" placeholder="Returning on" required disabled>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100 py-2">Search Flights</button> 
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="text-center section-title">Budget-Friendly Trip Packages</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Japan", "price":75000, "type":"package"}'>
+                <img src="/images/japann.jpg" class="card-img-top" alt="Japan">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Japan</h5>
+                    <p class="card-text">Experience the beauty of cherry blossoms.</p>
+                    <p class="fw-bold">₹75,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save Package</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Korea", "price":65000, "type":"package"}'>
+                <img src="/images/koreaa.jpg" class="card-img-top" alt="Korea">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Korea</h5>
+                    <p class="card-text">Explore K-pop culture, technology, and delicious cuisine.</p>
+                    <p class="fw-bold">₹65,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save Package</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Dubai", "price":80000, "type":"package"}'>
+                <img src="/images/dubaii.jpg" class="card-img-top" alt="Dubai">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Dubai</h5>
+                    <p class="card-text">Luxury, desert safaris, and the tallest skyscrapers await.</p>
+                    <p class="fw-bold">₹80,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save Package</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Thailand", "price":50000, "type":"package"}'>
+                <img src="/images/bankok.jpeg" class="card-img-top" alt="Thailand">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Thailand</h5>
+                    <p class="card-text">Beautiful beaches, vibrant nightlife, and tropical paradise.</p>
+                    <p class="fw-bold">₹50,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save Package</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Sri Lanka", "price":55000, "type":"package"}'>
+                <img src="/images/srilankaa.jpg" class="card-img-top" alt="Sri Lanka">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Sri Lanka</h5>
+                    <p class="card-text">Rich history, scenic beaches, and wildlife adventures.</p>
+                    <p class="fw-bold">₹55,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save Package</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <h2 class="text-center section-title">Local Trips & Experiences</h2>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-5 g-4">
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Museum Visit", "price":500, "type":"local"}'>
+                <img src="/images/museum.jpg" class="card-img-top" alt="Museum">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Museum Visit</h5>
+                    <p class="card-text">Explore history and culture.</p>
+                    <p class="fw-bold">Price: ₹500</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Amusement Park", "price":1500, "type":"local"}'>
+                <img src="/images/apark.jpg" class="card-img-top" alt="Amusement Park">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Amusement Park</h5>
+                    <p class="card-text">Thrilling rides & fun </p>
+                    <p class="fw-bold">Price: ₹1,500</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Zoo Tour", "price":300, "type":"local"}'>
+                <img src="/images/zoo.jpg" class="card-img-top" alt="Zoo">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Zoo Tour</h5>
+                    <p class="card-text">See exotic animals up close.</p>
+                    <p class="fw-bold">Price: ₹300</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Water Park", "price":1200, "type":"local"}'>
+                <img src="/images/download.jpg" class="card-img-top" alt="Water Park">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Water Park</h5>
+                    <p class="card-text">Enjoy slides and wave pools.</p>
+                    <p class="fw-bold">Price: ₹1,200</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Nature Walk", "price":200, "type":"local"}'>
+                <img src="/images/trek.jpg" class="card-img-top" alt="Nature Walk">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Nature Walk</h5>
+                    <p class="card-text">Relax in serene landscapes.</p>
+                    <p class="fw-bold">Price: ₹200</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="text-center section-title" id="hotell" style="margin-left: 4em;">Hotels</h2>
+<div class="container my-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Luxury Hotel", "price":10000, "type":"hotel"}'>
+                <img src="/images/luxhotel.jpeg" class="card-img-top" alt="Luxury Hotel">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Luxury Hotel</h5>
+                    <p class="card-text">Experience top-notch luxury and comfort in our premium hotels.</p>
+                    <p class="fw-bold">₹10,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Budget Hotel", "price":2500, "type":"hotel"}'>
+                <img src="/images/budget.jpeg" class="card-img-top" alt="Budget Hotel">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Budget Hotel</h5>
+                    <p class="card-text">Affordable stays with great amenities for budget-conscious travelers.</p>
+                    <p class="fw-bold">₹2,500</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Resort", "price":5000, "type":"hotel"}'>
+                <img src="/images/resort.jpeg" class="card-img-top" alt="Resort">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Resort</h5>
+                    <p class="card-text">Relax and unwind at our beautiful resorts with scenic views.</p>
+                    <p class="fw-bold">₹5,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Boutique Hotel", "price":6500, "type":"hotel"}'>
+                <img src="/images/boutique.jpeg" class="card-img-top" alt="Boutique Hotel">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Boutique Hotel</h5>
+                    <p class="card-text">Stay in uniquely designed boutique hotels with personalized services.</p>
+                    <p class="fw-bold">₹6,500</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h2 class="text-center section-title" id="motell" style="margin-left: 4em;">Motels</h2>
+<div class="container my-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Standard Motel", "price":1000, "type":"motel"}'>
+                <img src="/images/motel.jpeg" class="card-img-top" alt="Standard Motel">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Standard Motel</h5>
+                    <p class="card-text">Comfortable and affordable motels for travelers</p>
+                    <p class="fw-bold">₹1,000</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Highway Motel", "price":1200, "type":"motel"}'>
+                <img src="/images/highmotel.jpeg" class="card-img-top" alt="Highway Motel">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Highway Motel</h5>
+                    <p class="card-text">Convenient roadside motels for a quick and restful stop.</p>
+                    <p class="fw-bold">₹1,200</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Budget Motel", "price":800, "type":"motel"}'>
+                <img src="/images/budgetomtel.jpeg" class="card-img-top" alt="Budget Motel">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Budget Motel</h5>
+                    <p class="card-text">Low-cost accommodation with essential amenities.</p>
+                    <p class="fw-bold">₹800</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card trip-card h-100" data-trip='{"name":"Luxury Motel", "price":2500, "type":"motel"}'>
+                <img src="/images/luxmotel.jpeg" class="card-img-top" alt="Luxury Motel">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Luxury Motel</h5>
+                    <p class="card-text">Upscale motels with enhanced services .</p>
+                    <p class="fw-bold">₹2,500</p>
+                    <button class="btn save-trip" style="color: #f5f7fa;">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" text-center>
+<nav aria-label="...">
+    <ul class="pagination">
+      <li class="page-item disabled">
+        <a class="page-link">Previous</a>
+      </li>
+      <li class="page-item active"><a class="page-link" href="#">1</a></li>
+      <li class="page-item " aria-current="page">
+        <a class="page-link" href="#">2</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav>
+</div>
+<footer class="bg-dark text-white mt-5">
+    <div class="container-fluid py-5" style="background-color: #673147;">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>Wander wheel by Chirag</h5>
+                <p>
+                    Compare and plan your dream Trip with ease. <br>We offer the best prices and options.
+                </p>
+            </div>
+  
+            <div class="col-md-2 mb-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-decoration-none"><i class="fa-solid fa-house"></i> Home</a></li>
+                    <li><a href="#" class="text-decoration-none"><i class="fa-solid fa-eject"></i> About Us</a></li>
+                    <li><a href="#" class="text-decoration-none"><i class="fa-solid fa-address-card"></i> Contact</a></li>
+                </ul>
+            </div>
+  
+            <div class="col-md-3 mb-4">
+                <h5>Follow Us</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-decoration-none"><i class="fab fa-facebook"></i> Facebook</a></li>
+                    <li><a href="#" class="text-decoration-none"><i class="fa-solid fa-x"></i> Twitter</a></li>
+                    <li><a href="#" class="text-decoration-none"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#" class="text-decoration-none"><i class="fa-brands fa-linkedin"></i> LinkedIn</a></li>
+                </ul>
+            </div>
+  
+            <div class="col-md-3 mb-4">
+                <h5>Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fa-solid fa-paper-plane"></i> Email: Wander.wheel@gmail.com</li>
+                    <li><i class="fa-solid fa-phone"></i> Phone: +91 12345-98765</li>
+                    <li><i class="fa-solid fa-map-location-dot"></i> Address: SCA (Lpu), Phagwara</li>
+                </ul>
+            </div>
+        </div>
+  
+        <div class="text-center pt-4 border-top border-light">
+            <p class="text mb-0">&copy; 2025 Wander Wheel by Chirag. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    $(document).ready(function() {
+        // Function to update cart count from localStorage
+        function updateCartCount() {
+            let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            $("#cart-count").text(cartItems.length);
+        }
+
+        // Call function on page load
+        updateCartCount();
+
+        // Add click event to all "Save" buttons in the trip sections
+        $(".save-trip").on("click", function() {
+            let tripData = $(this).closest(".trip-card").data("trip");
+            let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Check if item already exists in cart
+            let exists = cartItems.some(item => item.name === tripData.name && item.type === tripData.type);
+            
+            if (!exists) {
+                cartItems.push(tripData);
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+                updateCartCount();
+                
+                // Show success notification
+                Toastify({
+                    text: `${tripData.name} added to cart!`,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                    stopOnFocus: true
+                }).showToast();
+            } else {
+                Toastify({
+                    text: `${tripData.name} is already in your cart!`,
+                    duration: 3000,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    stopOnFocus: true
+                }).showToast();
+            }
+        });
+    });
+    // Date Picker Functionality
+$(document).ready(function() {
+    // Set minimum date to today for departure
+    const today = new Date().toISOString().split('T')[0];
+    $('#depart').attr('min', today);
+    
+    // When departure date changes
+    $('#depart').on('change', function() {
+        const departDate = $(this).val();
+        
+        if (departDate) {
+            // Enable return date and set min date to departure date
+            $('#return').prop('disabled', false);
+            $('#return').attr('min', departDate);
+            
+            // If return date is before new min date, clear it
+            if ($('#return').val() && $('#return').val() < departDate) {
+                $('#return').val('');
+            }
+        } else {
+            $('#return').prop('disabled', true);
+            $('#return').val('');
+        }
+    });
+    
+    // Form submission
+    $('#dateForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const departDate = $('#depart').val();
+        const returnDate = $('#return').val();
+        
+        if (!departDate) {
+            Toastify({
+                text: "Please select a departure date",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                stopOnFocus: true
+            }).showToast();
+            return;
+        }
+        
+        if (!returnDate) {
+            Toastify({
+                text: "Please select a return date",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                stopOnFocus: true
+            }).showToast();
+            return;
+        }
+        
+        // Store dates in localStorage for use in cart/payment
+        localStorage.setItem('travelDates', JSON.stringify({
+            depart: departDate,
+            return: returnDate
+        }));
+        
+        Toastify({
+            text: `Dates selected: ${formatDate(departDate)} to ${formatDate(returnDate)}`,
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+            stopOnFocus: true
+        }).showToast();
+    });
+    
+    // Helper function to format date for display
+    function formatDate(dateString) {
+        const options = { year: 'numeric', month: 'short', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    }
+});
+</script>
+
+<!-- Include Toastify CSS and JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+</body>
+</html>
